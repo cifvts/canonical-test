@@ -3,22 +3,24 @@ package main
 import (
 	"crypto/rand"
 	"fmt"
+	"io"
 	"os"
 )
 
+var out io.Writer = os.Stdout
 var MaxRounds = 3
 
 func shred(path string) int {
 	var file, err = os.OpenFile(path, os.O_WRONLY, 0644)
 
 	if err != nil {
-		fmt.Printf("Error opening the file, %s\n", err)
+		fmt.Fprintf(out, "Error opening the file, %s\n", err)
 		return 1
 	}
 
 	fileInfo, err := file.Stat()
 	if err != nil {
-		fmt.Printf("Error obtaining file size, %s\n", err)
+		fmt.Fprintf(out, "Error obtaining file size, %s\n", err)
 		return 1
 	}
 
@@ -30,20 +32,20 @@ func shred(path string) int {
 
 		err = file.Sync()
 		if err != nil {
-			fmt.Printf("Error syncing the file, %s\n", err)
+			fmt.Fprintf(out, "Error syncing the file, %s\n", err)
 			return 1
 		}
 	}
 
 	err = file.Close()
 	if err != nil {
-		fmt.Printf("Error closing the file, %s\n", err)
+		fmt.Fprintf(out, "Error closing the file, %s\n", err)
 		return 1
 	}
 
 	err = os.Remove(path)
 	if err != nil {
-		fmt.Printf("Error removing the file, %s\n", err)
+		fmt.Fprintf(out, "Error removing the file, %s\n", err)
 		return 1
 	}
 
@@ -52,7 +54,7 @@ func shred(path string) int {
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("Wrong number of parameters")
+		fmt.Fprintln(out, "Wrong number of parameters")
 		os.Exit(1)
 	}
 
