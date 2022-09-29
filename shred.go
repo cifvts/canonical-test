@@ -12,13 +12,13 @@ func shred(path string) int {
 	var file, err = os.OpenFile(path, os.O_WRONLY, 0644)
 
 	if err != nil {
-		fmt.Printf("Error opening the file, %s", err)
+		fmt.Printf("Error opening the file, %s\n", err)
 		return 1
 	}
 
 	fileInfo, err := file.Stat()
 	if err != nil {
-		fmt.Printf("Error obtaining file size, %s", err)
+		fmt.Printf("Error obtaining file size, %s\n", err)
 		return 1
 	}
 
@@ -30,20 +30,20 @@ func shred(path string) int {
 
 		err = file.Sync()
 		if err != nil {
-			fmt.Printf("Error syncing the file, %s", err)
+			fmt.Printf("Error syncing the file, %s\n", err)
 			return 1
 		}
 	}
 
 	err = file.Close()
 	if err != nil {
-		fmt.Printf("Error closing the file, %s", err)
+		fmt.Printf("Error closing the file, %s\n", err)
 		return 1
 	}
 
 	err = os.Remove(path)
 	if err != nil {
-		fmt.Printf("Error removing the file, %s", err)
+		fmt.Printf("Error removing the file, %s\n", err)
 		return 1
 	}
 
