@@ -1,0 +1,7 @@
+#cloud-init
+write_files:
+  - path: "/etc/issue"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      Hello World!
